@@ -1,0 +1,187 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "API для отслеживания цен криптовалют",
+        "title": "Crypto Watcher API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {
+        "/currency/add": {
+            "post": {
+                "description": "Добавляет новую криптовалюту в список отслеживания",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "currency"
+                ],
+                "summary": "Добавить валюту для отслеживания",
+                "parameters": [
+                    {
+                        "description": "Название валюты",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.CurrencyRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.StatusResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/currency/price": {
+            "post": {
+                "description": "Возвращает цену криптовалюты на заданный timestamp",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "currency"
+                ],
+                "summary": "Получить цену криптовалюты",
+                "parameters": [
+                    {
+                        "description": "Монета и метка времени",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.PriceRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.PriceResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/currency/remove": {
+            "post": {
+                "description": "Удаляет криптовалюту из отслеживания",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "currency"
+                ],
+                "summary": "Удалить валюту",
+                "parameters": [
+                    {
+                        "description": "Название валюты",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.CurrencyRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.StatusResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "model.CurrencyRequest": {
+            "type": "object",
+            "properties": {
+                "coin": {
+                    "type": "string",
+                    "example": "bitcoin"
+                }
+            }
+        },
+        "model.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.PriceRequest": {
+            "type": "object",
+            "properties": {
+                "coin": {
+                    "type": "string",
+                    "example": "bitcoin"
+                },
+                "timestamp": {
+                    "type": "integer",
+                    "example": 1723041724
+                }
+            }
+        },
+        "model.PriceResponse": {
+            "type": "object",
+            "properties": {
+                "coin": {
+                    "type": "string"
+                },
+                "currency": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                }
+            }
+        },
+        "model.StatusResponse": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

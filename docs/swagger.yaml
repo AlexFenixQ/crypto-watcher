@@ -1,0 +1,122 @@
+basePath: /
+definitions:
+  model.CurrencyRequest:
+    properties:
+      coin:
+        example: bitcoin
+        type: string
+    type: object
+  model.ErrorResponse:
+    properties:
+      error:
+        type: string
+    type: object
+  model.PriceRequest:
+    properties:
+      coin:
+        example: bitcoin
+        type: string
+      timestamp:
+        example: 1723041724
+        type: integer
+    type: object
+  model.PriceResponse:
+    properties:
+      coin:
+        type: string
+      currency:
+        type: string
+      price:
+        type: number
+    type: object
+  model.StatusResponse:
+    properties:
+      status:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: API для отслеживания цен криптовалют
+  title: Crypto Watcher API
+  version: "1.0"
+paths:
+  /currency/add:
+    post:
+      consumes:
+      - application/json
+      description: Добавляет новую криптовалюту в список отслеживания
+      parameters:
+      - description: Название валюты
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.CurrencyRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.StatusResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+      summary: Добавить валюту для отслеживания
+      tags:
+      - currency
+  /currency/price:
+    post:
+      consumes:
+      - application/json
+      description: Возвращает цену криптовалюты на заданный timestamp
+      parameters:
+      - description: Монета и метка времени
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.PriceRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.PriceResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+      summary: Получить цену криптовалюты
+      tags:
+      - currency
+  /currency/remove:
+    post:
+      consumes:
+      - application/json
+      description: Удаляет криптовалюту из отслеживания
+      parameters:
+      - description: Название валюты
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.CurrencyRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.StatusResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+      summary: Удалить валюту
+      tags:
+      - currency
+swagger: "2.0"
